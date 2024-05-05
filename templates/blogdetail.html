@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans antialised">
+    <nav class="bg-blue-600 p-4 text-white flex justify-between">
+        <div>
+            <a href="{% url 'index' %}">
+                <h1 class="font-bold">AI Blog Generator</h1>
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'index' %}" class="text-white underline">Welcome {{ user.username }}</a>
+            <a href="{% url 'blog-list' %}" class="text-white hover:underline ml-5">Blog Posts</a>
+            <a href="{% url 'logout' %}" class="text-white hover:underline ml-5">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-10 px-4 sm:px-0">
+        <section>
+            <h2 class="text-xl mb-4 font-semibold">Blog Detail</h2>  
+            <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md ">
+                {% if blog %}
+                <h3 class="text-lg font-semibold ">{{ blog.title }}</h3>
+                <div class="border border-gray-300 p-4 rounded mt-4">
+                        <p>{{ blog.content }}</p>
+                </div>
+                <hr class="border-gray-300 my-4">
+                <h4 class="font-medium">Youtube Title: <label id="Content" class="text-gray-500">{{ blog.title }}</label></h4>
+                <h4 class="font-medium">Youtube Link: <a href="#" class="text-blue-600 hover:text-blue-700">{{ blog.link }}</a></h4>
+                {% else %}
+                    <h3 class="text-lg font-semibold ">Blog post not found.</h3>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+
+   
+</body>
+</html>
