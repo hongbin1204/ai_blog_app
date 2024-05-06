@@ -47,6 +47,7 @@
             animation-timing-function: linear; 
         }
     </style>
+    
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans antialised">
     <nav class="bg-blue-600 p-4 text-white flex justify-between">
@@ -76,10 +77,9 @@
                 </div>
             </div>
 
-            <div style="display: none" id="loadingCircle" class="load"></div>
-
             <section class="mt-10 flex-grow">
                 <h2 class="text-xl mb-4 font-semibold">Generated Blog Article</h2>
+                <div style="display: none" id="loadingCircle" class="load"></div>
                 <div id="blockcontent" class="mt-2 text-gray-700 space-y-4">
 
                 </div>
@@ -90,6 +90,33 @@
     <footer class="text-center p-4 text-black mt-6">
         Made by Mr. Alvin Ang
     </footer>
+    <script>
+        // fetch(link)
+        //                 .then(res => res.text)
+        //                 .then(data => para.innerText = data)
+        async function getblog(link, para) {
+            const endpoint = "generate-blog"
+            const load = document.getElementById('loadingCircle');
+            load.style.display = '';
+            const response = await fetch(endpoint, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({youtubelink: link}),
+            })
+            const data = await response.json();
+            load.style.display = 'none';
+            para.innerText = data['content'];
+        }
+        document.getElementById('denerateblogbutton').addEventListener('click', () => {
+            const link = document.getElementById('youtubelink').value;
+            const para = document.getElementById('blockcontent')
+            getblog(link, para);
+        });
 
+
+    </script>
 </body>
 </html>

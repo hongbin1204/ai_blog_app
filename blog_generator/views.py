@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from pytube import YouTube
 import assemblyai as aai
 from .models import BlogPost
-
+import json
+import os
 
 # Create your views here.
 @login_required
@@ -18,7 +19,7 @@ def index(request):
 @csrf_exempt
 def generate_blog(request):
     if request.method == "POST":
-        link = request.POST['youtubelink']
+        link = json.loads(request.body.decode('utf-8'))['youtubelink']
         list = yt_download(link)
         title = list[0]
         content = list[1]
@@ -40,12 +41,12 @@ def transcription(path):
     aai.settings.api_key = "a1741dc5b90f4677b5a6b1bd3721e87f"
     transcriber = aai.Transcriber()
     transcript = transcriber.transcribe(path)
+    os.remove(path)
     return transcript.text
 
 def blog_list(request):
     blogs = BlogPost.objects.filter(user=request.user)
     return render(request, 'blogs.html', {"blogs": blogs})
-    pass
 
 def blog_details(request, pk):
     blog = BlogPost.objects.filter(pk=pk).first()
